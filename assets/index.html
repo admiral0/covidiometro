@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CoviDioMetro</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.10.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.8.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.5.1"></script>
+    <link rel="stylesheet" href="/static/covidiometro.css">
+</head>
+<body>
+<div class="pure-g header" style="padding-left: 2em; padding-right: 2em">
+    <div class="pure-u-1">
+    <div class="pure-menu pure-menu-horizontal">
+        <a href="#" class="pure-menu-heading pure-menu-link">Covidiometro</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">About</a></li>
+        </ul>
+    </div>
+        <h1>Dashboard COVID-19 Italia</h1>
+    </div>
+</div>
+<div class="pure-g" style="padding-left: 2em; padding-right: 2em">
+
+
+    <div class="pure-u-1">
+        <div id="contagiItalia"></div>
+        <div id="casiItalia"></div>
+        <div id="nuoviPositivi"></div>
+        <div id="tamponi"></div>
+        <div id="tamponiPositivi"></div>
+    </div>
+    <div class="pure-u-1">
+        <div id="deceduti"></div>
+        <div id="guariti"></div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    let contagiSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Contagi Totali",
+        description: 'Andamento dei contagi in italia',
+        data: {
+            values: {}
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'totale_attualmente_positivi', type: 'quantitative',
+            axis: {
+                title: "Totale Attualmente Positivi"
+            }}
+        }
+    };
+    let casiItalia = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Casi COVID-19 In Italia",
+        description: 'Andamento dei casi in italia',
+        data: {
+            values: {}
+        },
+        transform: [
+            {
+                "fold": ["totale_ospedalizzati", "terapia_intensiva", "isolamento_domiciliare"]
+            }
+        ],
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'value', type: 'quantitative',
+                axis: {
+                    title: "Persone"
+                }
+            },
+            color: {
+                field: "key", type: "nominal",
+                axis: {
+                    title: "Tipo"
+                }
+            }
+        }
+    };
+    let nuoviPositivi = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Nuovi casi di COVID-19",
+        description: 'Andamento dei casi in italia',
+        data: {
+            values: {}
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'nuovi_attualmente_positivi', type: 'quantitative',
+                axis: {
+                    title: "Nuovi Positivi"
+                }
+            }
+        }
+    };
+    let tamponiSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Tamponi effettuati",
+        description: 'Andamento dei contagi in italia',
+        data: {
+            values: {}
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'tamponi', type: 'quantitative',
+                axis: {
+                    title: "Tamponi"
+                }}
+        }
+    };
+    let tamponiPositivi = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Percentuale tamponi positivi",
+        description: 'Andamento dei casi in italia',
+        data: {
+            values: {}
+        },
+        "transform": [
+            {"calculate": "datum.totale_casi*100/datum.tamponi", "as": "value"}
+        ],
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'value', type: 'quantitative',
+                axis: {
+                    title: "Nuovi Positivi"
+                }
+            }
+        }
+    };
+    let deceduti = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Deceduti",
+        description: 'Andamento dei contagi in italia',
+        data: {
+            values: {}
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'deceduti', type: 'quantitative',
+                axis: {
+                    title: "Deceduti"
+                }}
+        }
+    };
+    let guariti = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "Guariti",
+        description: 'Andamento dei contagi in italia',
+        data: {
+            values: {}
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'dimessi_guariti', type: 'quantitative',
+                axis: {
+                    title: "Tamponi"
+                }}
+        }
+    };
+
+    fetch("/raw/italia.json").then((response) => {
+        return response.json()
+    }).then((data) => {
+        contagiSpec.data.values = data;
+        casiItalia.data.values = data;
+        nuoviPositivi.data.values = data;
+        tamponiPositivi.data.values = data;
+        tamponiSpec.data.values = data;
+        deceduti.data.values = data;
+        guariti.data.values = data;
+        vegaEmbed("#contagiItalia", contagiSpec);
+        vegaEmbed("#casiItalia", casiItalia);
+        vegaEmbed("#nuoviPositivi", nuoviPositivi);
+        vegaEmbed("#tamponiPositivi", tamponiPositivi);
+        vegaEmbed("#tamponi", tamponiSpec);
+        vegaEmbed("#deceduti", deceduti);
+        vegaEmbed("#guariti", guariti)
+    });
+</script>
+</body>
+</html>

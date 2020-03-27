@@ -1,0 +1,7 @@
+.pure-u-1 > div {
+    display: inline-block;
+}
+
+.pure-g.header {
+    padding-top: 1em;
+}
