@@ -29,17 +29,18 @@ func about(w http.ResponseWriter, r *http.Request){
 
 func main() {
 	util.SetupLogging()
+
 	log.Println("Initializing in-memory repository")
-	consumer := make(chan datastore.Dati, 1)
-	go datastore.Updater(consumer)
+	datastore.Inizializzazione()
+	datastore.ScaricaDati()
+	go datastore.Updater()
 
 	mux := goji.NewMux()
-
 	// Handlers
 	mux.HandleFunc(pat.Get("/"), index)
 	mux.HandleFunc(pat.Get("/about"), about)
 	mux.HandleFunc(pat.Get("/raw/italia.json"), func(writer http.ResponseWriter, request *http.Request) {
-		dati := <- consumer
+		dati := datastore.Holder.Get()
 		raw := []byte(dati.ItaliaRaw)
 		_, err := writer.Write(raw)
 		util.ErrFatal(err)

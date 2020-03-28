@@ -1,18 +1,56 @@
 package datastore
 
-type DatoItalia struct {
-	data string
-	stato string
-	ricoverati_con_sintomi int
-	terapia_intensiva int
-	totale_ospedalizzati int
-	isolamento_domiciliare int
-	totale_attualmente_positivi int
-	nuovi_attualmente_positivi int
-	dimessi_guariti int
-	deceduti int
-	totale_casi int
-	tamponi int
-	note_it string
-	note_en string
+import (
+	"sync"
+	"time"
+)
+
+const GitRepository = "https://github.com/pcm-dpc/COVID-19.git"
+
+const DatiItalia = "dpc-covid19-ita-andamento-nazionale.json"
+const DatiRegioni = "dpc-covid19-ita-regioni.json"
+const DatiProvince = "dpc-covid19-ita-province.json"
+
+type Dati struct {
+	ItaliaRaw  string
+	Italia     []map[string]interface{}
+	Regioni []map[string]interface{}
+	Province []map[string]interface{}
+	lastUpdate time.Time
+	ttl        time.Time
+}
+
+type DataHolder struct {
+	dati *Dati
+	mux sync.Mutex
+}
+
+func Inizializzazione() {
+	dati := NuoviDati()
+	Holder.dati = dati
+}
+
+func NuoviDati() *Dati {
+	dati := Dati{
+		ItaliaRaw:  "[]",
+		Italia:     nil,
+		Regioni:    nil,
+		Province:   nil,
+		lastUpdate: time.Unix(0, 0),
+		ttl:        time.Now(),
+	}
+	return &dati
+}
+
+func (h *DataHolder) Get() *Dati {
+	h.mux.Lock()
+	p := h.dati
+	h.mux.Unlock()
+	return p
+}
+
+func (h *DataHolder) Put(d *Dati) {
+	h.mux.Lock()
+	h.dati = d
+	h.mux.Unlock()
 }
