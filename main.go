@@ -1,6 +1,7 @@
 package main
 
 import (
+	"covidiometro/android"
 	"covidiometro/datastore"
 	"covidiometro/util"
 	"github.com/markbates/pkger"
@@ -45,6 +46,8 @@ func main() {
 		_, err := writer.Write(raw)
 		util.ErrFatal(err)
 	})
+
+	android.RegisterHandlers(mux)
 
 	// Static files handling
 	dir := http.FileServer(pkger.Dir("/assets"))

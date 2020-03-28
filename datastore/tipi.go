@@ -13,9 +13,13 @@ const DatiProvince = "dpc-covid19-ita-province.json"
 
 type Dati struct {
 	ItaliaRaw  string
+
+	AndroidBundle []byte
+
 	Italia     []map[string]interface{}
 	Regioni []map[string]interface{}
 	Province []map[string]interface{}
+
 	lastUpdate time.Time
 	ttl        time.Time
 }
@@ -33,6 +37,7 @@ func Inizializzazione() {
 func NuoviDati() *Dati {
 	dati := Dati{
 		ItaliaRaw:  "[]",
+		AndroidBundle: nil,
 		Italia:     nil,
 		Regioni:    nil,
 		Province:   nil,
