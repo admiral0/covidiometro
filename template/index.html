@@ -34,9 +34,13 @@
         <%+ "snip/bufOut.html" %>
         <% IstogrammaSemplice("italia", "tamponiGiornalieri", "Tamponi Effettuati", "Tamponi effettuati", "tamponi_dt", "Tamponi", buf) %>
         <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "ricoverati", "Ricoverati con sintomi", "Ricoverati con sintomi", "ricoverati_con_sintomi", "Ricoveri", buf) %>
+        <%+ "snip/bufOut.html" %>
         <% IstogrammaSemplice("italia", "nuoviRicoveri", "Δ Ricoveri con sintomi", "Ricoveri con sintomi", "ricoverati_con_sintomi_dt", "Ricoveri", buf) %>
         <%+ "snip/bufOut.html" %>
-        <% IstogrammaSemplice("italia", "nuoviRicoveriICU", "Δ Terapia Intensiva", "Tamponi effettuati", "terapia_intensiva_dt", "Ricoveri di emergenza", buf) %>
+        <% IstogrammaSemplice("italia", "ricoveriICU", "Terapia Intensiva", "Persone in terapia intensiva", "terapia_intensiva", "Ricoverati di emergenza", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "nuoviRicoveriICU", "Δ Terapia Intensiva", "Terapia intensiva", "terapia_intensiva_dt", "Ricoveri di emergenza", buf) %>
         <%+ "snip/bufOut.html" %>
     </div>
 
