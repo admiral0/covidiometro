@@ -2,15 +2,16 @@ package datastore
 
 import (
 	"covidiometro/util"
+
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing/object"
+	"gopkg.in/src-d/go-git.v4/storage/memory"
 )
-import "gopkg.in/src-d/go-git.v4/storage/memory"
 
 func Clone() (*object.Tree, error) {
 	r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
-		URL: GitRepository,
-		Depth:1,
+		URL:   GitRepository,
+		Depth: 1,
 	})
 	util.ErrFatal(err)
 
@@ -25,4 +26,3 @@ func Clone() (*object.Tree, error) {
 	util.ErrFatal(err)
 	return dati, nil
 }
-

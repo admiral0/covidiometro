@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%@ titoloPagina { %>Covidiometro<% } %></title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.10.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.8.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.5.1"></script>
+    <link rel="stylesheet" href="/static/covidiometro.css">
+</head>
+<body>
+
+<div class="pure-g header" style="padding-left: 2em; padding-right: 2em">
+    <div class="pure-u-1">
+        <div class="pure-menu pure-menu-horizontal">
+            <a href="#" class="pure-menu-heading pure-menu-link">Covidiometro</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item<%@ activeHome { %><% } %>"><a href="/" class="pure-menu-link">Home</a></li>
+                <li class="pure-menu-item<%@ activeAbout { %><% } %>"><a href="/about" class="pure-menu-link">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<%@ body { %><% } %>
+
+</body>
+</html>

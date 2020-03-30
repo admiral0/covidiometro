@@ -1,0 +1,53 @@
+<%!
+    import "strings"
+    import "fmt"
+%>
+<%: func IstogrammaStacking(varDati string, slug string, titolo string, descrizione string, dato []string, titoloDato string, titoloColore string, buffer *bytes.Buffer) %>
+<%
+var datoQuotato []string
+for _, v := range dato {
+    datoQuotato = append(datoQuotato, fmt.Sprintf("\"%s\"", v))
+}
+%>
+<div id="<%=s slug %>"></div>
+<script type="text/javascript">
+    let <%=s slug %> = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "<%=s titolo %>",
+        description: '<%=s descrizione %>',
+        data: {
+            values: {}
+        },
+        transform: [
+            {
+                "fold": [<%==s strings.Join(datoQuotato[:], ",") %>]
+            }
+        ],
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: 'value', type: 'quantitative',
+                axis: {
+                    title: "<%=s titoloDato %>"
+                }
+            },
+            color: {
+                field: "key", type: "nominal",
+                axis: {
+                    title: "<%=s titoloColore %>"
+                }
+            }
+        }
+    };
+    <%=s slug %>.data.values = <%=s varDati %>;
+    vegaEmbed("#<%=s slug %>", <%=s slug %>)
+</script>

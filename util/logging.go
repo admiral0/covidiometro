@@ -1,8 +1,9 @@
 package util
 
 import (
-	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
+
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 const logPath = "."
@@ -10,9 +11,9 @@ const logPath = "."
 func SetupLogging() {
 	log.SetOutput(&lumberjack.Logger{
 		Filename: "covidiometro.log",
-		MaxSize: 10,
-		MaxAge:60,
-		Compress:true,
+		MaxSize:  10,
+		MaxAge:   60,
+		Compress: true,
 	})
 }
 

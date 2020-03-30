@@ -1,0 +1,45 @@
+<%: func About(w io.Writer) %>
+
+<%~ "base.html" %>
+
+<%@ activeAbout { %>  pure-menu-selected<% } %>
+
+<%@ body { %>
+<div class="pure-u-1" style="padding-left: 2em; padding-right: 2em">
+    <h1>About Covidiometro</h1>
+    <p>
+        Covidiometro è una soluzione fatta in casa per avere dei grafici di merda dei quali mi fido e si auto-aggiornano.
+        Infatti usa i dati della protezione civile in github per rappresentare il tutto. Tutto è partito dal
+        essere stufo di non avere dei grafici decenti, ma sopratutto dalla noia del essere rinchiuso in casa.
+    </p>
+
+    <h3>Dove gira?</h3>
+    <p>Su una raspberry pi LOL</p>
+    <h3>Che tecnologie hai usato?</h3>
+    <p>
+    <ul>
+        <li>GoLang</li>
+        <li>Vega</li>
+        <li>Sputi e Bestemmie</li>
+    </ul>
+    </p>
+    <h3>Hai intenzione di inserire pubblicità?</h3>
+    <p>Assolutamente no cazzo.</p>
+
+
+    <h3>Chi sei?</h3>
+    <p>Un nerd che voleva imparare go</p>
+
+    <h3>TODO List - Appena mi annoio di nuovo</h3>
+    <ul>
+        <li>Dashboard Regionali</li>
+        <li><strike>Pulire il codice e pubblicarlo</strike>&nbsp;<a href="https://github.com/admiral0/covidiometro">lo trovi QUI</a></li>
+    </ul>
+
+    <h3>Note Codice</h3>
+    <p>
+        Questo codice è stato scritto in fretta e furia imparando un nuovo linguaggio. Durante la lettura richiede un ottimo vino e un
+        pochino di sugo - in quanto sono spaghetti di ottima qualità.
+    </p>
+</div>
+<% } %>

@@ -9,9 +9,9 @@ var update, _ = time.ParseDuration("1h")
 var Holder DataHolder
 
 func Updater() {
-	for ; true; {
+	for true {
 		d := Holder.Get()
-		if d.ttl.Before(time.Now()){
+		if d.ttl.Before(time.Now()) {
 			log.Println("Updating repo - data is old")
 			Holder.Put(ScaricaDati())
 			log.Println("Update done")

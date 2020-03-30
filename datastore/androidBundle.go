@@ -12,7 +12,6 @@ func BuildBundleV1(dati *Dati) []byte {
 	bundle["regioni"] = dati.Regioni
 	bundle["province"] = dati.Province
 
-
 	bundleString, err := json.Marshal(bundle)
 	util.ErrFatal(err)
 

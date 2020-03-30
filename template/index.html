@@ -1,0 +1,58 @@
+<%!
+    import "covidiometro/datastore"
+    import "covidiometro/util"
+    import "bytes"
+    import "json"
+%>
+
+<%: func Index(dati *datastore.Dati, w io.Writer) %>
+
+<%~ "base.html" %>
+<%@ activeHome { %>  pure-menu-selected<% } %>
+
+<%@ body { %>
+<script type="text/javascript">
+    var italia = JSON.parse('<%==bs util.Js(dati.Italia) %>');
+</script>
+<div class="pure-g header" style="padding-left: 2em; padding-right: 2em">
+    <% buf := new(bytes.Buffer) %>
+    <div class="pure-u-1">
+        <h2>Contagi</h2>
+    <% IstogrammaSemplice("italia", "contagi", "Contagi Totali", "Andamento dei contagi in italia", "totale_attualmente_positivi", "Totale Attualmente Positivi", buf) %>
+    <%+ "snip/bufOut.html" %>
+    <% IstogrammaStacking("italia", "contagiSplit", "Contagi Per Gravità", "Contagi per gravita", []string{"terapia_intensiva", "isolamento_domiciliare", "ricoverati_con_sintomi"}, "Persone", "Gravità", buf) %>
+    <%+ "snip/bufOut.html" %>
+    <% IstogrammaSemplice("italia", "nuoviContagi", "Nuovi Contagi", "Contagi giornalieri rilevati", "nuovi_attualmente_positivi", "Nuovi Attualmente Positivi", buf) %>
+    <%+ "snip/bufOut.html" %>
+    <% IstogrammaRapporto("italia", "rapportoContagi", "Percentuale Infetta dei Tamponi", "Percentuale dei tamponi effettuati infetti", "nuovi_attualmente_positivi", "tamponi_dt", "Percentuale Positivi", buf) %>
+    <%+ "snip/bufOut.html" %>
+    </div>
+
+    <div class="pure-u-1">
+        <h2>Pressione sul sistema sanitario</h2>
+        <% IstogrammaSemplice("italia", "tamponiTotali", "Totale Tamponi Effettuati", "Totale Tamponi effettuati", "tamponi", "Tamponi Totali", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "tamponiGiornalieri", "Tamponi Effettuati", "Tamponi effettuati", "tamponi_dt", "Tamponi", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "nuoviRicoveri", "Δ Ricoveri con sintomi", "Ricoveri con sintomi", "ricoverati_con_sintomi_dt", "Ricoveri", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "nuoviRicoveriICU", "Δ Terapia Intensiva", "Tamponi effettuati", "terapia_intensiva_dt", "Ricoveri di emergenza", buf) %>
+        <%+ "snip/bufOut.html" %>
+    </div>
+
+    <div class="pure-u-1">
+        <h2>Inattivi</h2>
+        <% IstogrammaSemplice("italia", "deceduti", "Deceduti", "Totale Deceduti", "deceduti", "Persone", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "decedutiDt", "Δ Deceduti", "Deceduti al giorno", "deceduti_dt", "Persone", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "guariti", "Dimessi Guariti", "Totale Guariti", "dimessi_guariti", "Persone", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "guaritiDt", "Δ Dimessi Guariti", "Dimessi al giorno", "dimessi_guariti_dt", "Persone", buf) %>
+        <%+ "snip/bufOut.html" %>
+    </div>
+    <div class="pure-u-1">
+        <p>Sorgente dati: GitHub - <a href="https://github.com/pcm-dpc/COVID-19">repository della protezione civile</a></p>
+    </div>
+</div>
+<% } %>

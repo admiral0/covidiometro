@@ -12,12 +12,10 @@ const DatiRegioni = "dpc-covid19-ita-regioni.json"
 const DatiProvince = "dpc-covid19-ita-province.json"
 
 type Dati struct {
-	ItaliaRaw  string
-
 	AndroidBundle []byte
 
-	Italia     []map[string]interface{}
-	Regioni []map[string]interface{}
+	Italia   []map[string]interface{}
+	Regioni  []map[string]interface{}
 	Province []map[string]interface{}
 
 	lastUpdate time.Time
@@ -26,7 +24,7 @@ type Dati struct {
 
 type DataHolder struct {
 	dati *Dati
-	mux sync.Mutex
+	mux  sync.Mutex
 }
 
 func Inizializzazione() {
@@ -36,13 +34,12 @@ func Inizializzazione() {
 
 func NuoviDati() *Dati {
 	dati := Dati{
-		ItaliaRaw:  "[]",
 		AndroidBundle: nil,
-		Italia:     nil,
-		Regioni:    nil,
-		Province:   nil,
-		lastUpdate: time.Unix(0, 0),
-		ttl:        time.Now(),
+		Italia:        nil,
+		Regioni:       nil,
+		Province:      nil,
+		lastUpdate:    time.Unix(0, 0),
+		ttl:           time.Now(),
 	}
 	return &dati
 }

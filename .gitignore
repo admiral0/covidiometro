@@ -2,3 +2,5 @@
 covidiometro.log
 pkged.go
 covidiometro_arm
+covidiometro
+template/*.html.go

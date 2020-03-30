@@ -2,10 +2,11 @@ package android
 
 import (
 	"covidiometro/datastore"
-	"goji.io"
-	"goji.io/pat"
 	"log"
 	"net/http"
+
+	"goji.io"
+	"goji.io/pat"
 )
 
 func RegisterHandlers(mux *goji.Mux) {

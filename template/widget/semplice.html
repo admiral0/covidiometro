@@ -1,0 +1,31 @@
+<%: func IstogrammaSemplice(varDati string, slug string, titolo string, descrizione string, dato string, titoloDato string, buffer *bytes.Buffer) %>
+<div id="<%=s slug %>"></div>
+<script type="text/javascript">
+    let <%=s slug %> = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.0.json',
+        title: "<%=s titolo %>",
+        description: '<%=s descrizione %>',
+        data: {
+            values: []
+        },
+        mark: {
+            type: "bar",
+            tooltip: true
+        },
+        encoding: {
+            x: {
+                field: 'data', type: 'temporal',
+                axis: {
+                    title: "Data",
+                    titleOpacity: 0
+                }
+            },
+            y: {field: '<%=s dato %>', type: 'quantitative',
+                axis: {
+                    title: "<%=s titoloDato %>"
+                }}
+        }
+    };
+    <%=s slug %>.data.values = <%=s varDati %>;
+    vegaEmbed("#<%=s slug %>", <%=s slug %>)
+</script>
