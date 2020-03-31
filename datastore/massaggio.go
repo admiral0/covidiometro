@@ -36,6 +36,8 @@ func massaggiaDati(tree *object.Tree, d *Dati) {
 
 	stuzzica(d)
 
+	popolaRegioni(d)
+
 	now := time.Now()
 
 	d.lastUpdate = now
@@ -48,6 +50,12 @@ func stuzzica(dati *Dati) {
 	campo_dt(dati.Italia, "dimessi_guariti", "dimessi_guariti_dt")
 	campo_dt(dati.Italia, "terapia_intensiva", "terapia_intensiva_dt")
 	campo_dt(dati.Italia, "ricoverati_con_sintomi", "ricoverati_con_sintomi_dt")
+
+	campo_unfold_dt(dati.Regioni, "codice_regione","tamponi", "tamponi_dt")
+	campo_unfold_dt(dati.Regioni, "codice_regione", "deceduti", "deceduti_dt")
+	campo_unfold_dt(dati.Regioni, "codice_regione", "dimessi_guariti", "dimessi_guariti_dt")
+	campo_unfold_dt(dati.Regioni, "codice_regione", "terapia_intensiva", "terapia_intensiva_dt")
+	campo_unfold_dt(dati.Regioni, "codice_regione", "ricoverati_con_sintomi", "ricoverati_con_sintomi_dt")
 }
 
 func campo_dt(lista []map[string]interface{}, originale string, nuovo string){
@@ -55,5 +63,29 @@ func campo_dt(lista []map[string]interface{}, originale string, nuovo string){
 	for _, mappa := range lista {
 		mappa[nuovo] = mappa[originale].(float64) - precedente
 		precedente = mappa[originale].(float64)
+	}
+}
+
+func campo_unfold_dt(lista []map[string]interface{}, disambiguatore string, originale string, nuovo string){
+	precedente := make(map[float64]float64)
+	for _, mappa := range lista {
+		codice := mappa[disambiguatore].(float64)
+		p, ok := precedente[codice]
+		if ! ok {
+			p = 0
+		}
+		mappa[nuovo] = mappa[originale].(float64) - p
+		precedente[codice] = mappa[originale].(float64)
+	}
+}
+
+func popolaRegioni(dati *Dati) {
+	for _, mappa := range dati.Regioni {
+		regione := mappa["denominazione_regione"].(string)
+		codice := int(mappa["codice_regione"].(float64))
+		_, ok := dati.MappaRegioni[codice]
+		if ! ok {
+			dati.MappaRegioni[codice] = regione
+		}
 	}
 }

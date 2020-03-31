@@ -19,6 +19,6 @@ func SetupLogging() {
 
 func ErrFatal(err error) {
 	if err != nil {
-		log.Fatalln(err)
+		log.Panicln(err)
 	}
 }

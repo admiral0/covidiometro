@@ -18,6 +18,8 @@ type Dati struct {
 	Regioni  []map[string]interface{}
 	Province []map[string]interface{}
 
+	MappaRegioni map[int]string
+
 	lastUpdate time.Time
 	ttl        time.Time
 }
@@ -38,6 +40,7 @@ func NuoviDati() *Dati {
 		Italia:        nil,
 		Regioni:       nil,
 		Province:      nil,
+		MappaRegioni: make(map[int]string),
 		lastUpdate:    time.Unix(0, 0),
 		ttl:           time.Now(),
 	}

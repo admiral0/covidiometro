@@ -1,36 +1,34 @@
 <%!
-    import "covidiometro/datastore"
-    import "covidiometro/util"
-    import "bytes"
-    import "json"
+import "covidiometro/datastore"
+import "covidiometro/util"
+import "bytes"
+import "json"
 %>
 
-<%: func Index(dati *datastore.Dati, w io.Writer) %>
+<%: func Regione(dati *datastore.Dati, regioneVis int, w io.Writer) %>
 
 <%~ "base.html" %>
 <%@ activeHome { %>  pure-menu-selected<% } %>
 
 <%@ body { %>
-<% const regioneVis = -1  %>
-
 <%+ "snip/menuregioni.html" %>
 <script type="text/javascript">
-    var italia = JSON.parse('<%==bs util.Js(dati.Italia) %>');
+    var italia = JSON.parse('<%==bs util.JsRegioni(&dati.Regioni, regioneVis) %>');
 </script>
 <div class="pure-g header" style="padding-left: 2em; padding-right: 2em">
-
     <% buf := new(bytes.Buffer) %>
     <div class="pure-u-1">
-        <h1>Italia</h1>
+        <h1><%=s dati.MappaRegioni[regioneVis] %></h1>
+        <p><strong>I dati regionali sono molto grezzi - potrebbero essere imprecisi a tratti.</strong></p>
         <h2>Contagi</h2>
-    <% IstogrammaSemplice("italia", "contagi", "Contagi Totali", "Andamento dei contagi in italia", "totale_positivi", "Totale Attualmente Positivi", buf) %>
-    <%+ "snip/bufOut.html" %>
-    <% IstogrammaStacking("italia", "contagiSplit", "Contagi Per Gravità", "Contagi per gravita", []string{"terapia_intensiva", "isolamento_domiciliare", "ricoverati_con_sintomi"}, "Persone", "Gravità", buf) %>
-    <%+ "snip/bufOut.html" %>
-    <% IstogrammaSemplice("italia", "nuoviContagi", "Nuovi Contagi", "Contagi giornalieri rilevati", "nuovi_positivi", "Nuovi Attualmente Positivi", buf) %>
-    <%+ "snip/bufOut.html" %>
-    <% IstogrammaRapporto("italia", "rapportoContagi", "Percentuale Infetta dei Tamponi", "Percentuale dei tamponi effettuati infetti", "nuovi_positivi", "tamponi_dt", "Percentuale Positivi", buf) %>
-    <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "contagi", "Contagi Totali", "Andamento dei contagi in italia", "totale_positivi", "Totale Attualmente Positivi", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaStacking("italia", "contagiSplit", "Contagi Per Gravità", "Contagi per gravita", []string{"terapia_intensiva", "isolamento_domiciliare", "ricoverati_con_sintomi"}, "Persone", "Gravità", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaSemplice("italia", "nuoviContagi", "Nuovi Contagi", "Contagi giornalieri rilevati", "nuovi_positivi", "Nuovi Attualmente Positivi", buf) %>
+        <%+ "snip/bufOut.html" %>
+        <% IstogrammaRapporto("italia", "rapportoContagi", "Percentuale Infetta dei Tamponi", "Percentuale dei tamponi effettuati infetti", "nuovi_positivi", "tamponi_dt", "Percentuale Positivi", buf) %>
+        <%+ "snip/bufOut.html" %>
     </div>
 
     <div class="pure-u-1">

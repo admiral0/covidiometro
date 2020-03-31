@@ -1,0 +1,29 @@
+<%!
+import "sort"
+%>
+<div class="pure-g header" style="padding-left: 2em; padding-right: 2em">
+    <div class="pure-u-1">
+        Dati per regione:
+        <%
+        type cv struct {
+            Chiave   int
+            Valore   string
+        }
+        var ss []cv
+        for codice, regione := range dati.MappaRegioni {
+            ss = append(ss, cv{codice, regione})
+        }
+        sort.Slice(ss, func(i, j int) bool {
+            return ss[i].Valore < ss[j].Valore
+        })
+        for _, coso := range ss {
+        %>
+
+        <% if regioneVis == coso.Chiave { %>
+        <a href="" class="pure-button pure-button-active" style="margin-bottom: 0.5em"><%=s coso.Valore %></a>
+        <% } else { %>
+        <a href="/regione/<%=i coso.Chiave %>" class="pure-button" style="margin-bottom: 0.5em"><%=s coso.Valore %></a>
+        <% } %>
+        <% } %>
+    </div>
+</div>

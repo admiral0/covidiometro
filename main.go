@@ -7,6 +7,7 @@ import (
 	"covidiometro/util"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/markbates/pkger"
 	"goji.io"
@@ -22,6 +23,17 @@ func about(w http.ResponseWriter, r *http.Request) {
 	template.About(w)
 }
 
+func regione(w http.ResponseWriter, r *http.Request) {
+	regione, err := strconv.Atoi(pat.Param(r, "regione"))
+	dati := datastore.Holder.Get()
+	if err == nil {
+		template.Regione(dati, regione, w)
+	}else {
+		w.WriteHeader(404)
+	}
+
+}
+
 func main() {
 	util.SetupLogging()
 
@@ -33,6 +45,7 @@ func main() {
 	mux := goji.NewMux()
 	// Handlers
 	mux.HandleFunc(pat.Get("/"), index)
+	mux.HandleFunc(pat.Get("/regione/:regione"), regione)
 	mux.HandleFunc(pat.Get("/about"), about)
 
 	android.RegisterHandlers(mux)
