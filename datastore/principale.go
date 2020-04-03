@@ -16,5 +16,6 @@ func Updater() {
 			Holder.Put(ScaricaDati())
 			log.Println("Update done")
 		}
+		time.Sleep(1 * time.Minute)
 	}
 }
