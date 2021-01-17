@@ -1,2 +1,11 @@
+# Web assets
+/cmd/covidiometro/pkged.go
+/index.html
+/assets/
+
+# Bins
 /cmd/load-data-coviddi/load-data-coviddi
+/cmd/covidiometro/covidiometro
+
+# Intellij
 /.idea

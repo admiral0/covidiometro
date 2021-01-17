@@ -9,6 +9,9 @@ import (
 )
 
 func (d *GitVaccines) HasNewData() (bool, error) {
+	if d.Data == nil {
+		return true, nil
+	}
 	err := d.repository.Fetch(&git.FetchOptions{})
 	if err != nil && err.Error() != "already up-to-date" {
 		return false, fmt.Errorf("could not fetch during update check: %w", err)
